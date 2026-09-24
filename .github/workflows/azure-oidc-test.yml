@@ -15,10 +15,15 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v4
 
-      - name: Show GitHub context
+      - name: Login to Azure using OIDC
+        uses: azure/login@v2
+        with:
+          client-id: ${{ vars.AZURE_CLIENT_ID }}
+          tenant-id: ${{ vars.AZURE_TENANT_ID }}
+          subscription-id: ${{ vars.AZURE_SUBSCRIPTION_ID }}
+
+      - name: Show authenticated identity
         run: |
-          echo "Repository: $GITHUB_REPOSITORY"
-          echo "Repository ID: $GITHUB_REPOSITORY_ID"
-          echo "Repository owner: $GITHUB_REPOSITORY_OWNER"
-          echo "Repository owner ID: $GITHUB_REPOSITORY_OWNER_ID"
-          echo "Ref: $GITHUB_REF"
+          az account show \
+            --query "{subscription:name, tenant:tenantId, user:user}" \
+            --output json
