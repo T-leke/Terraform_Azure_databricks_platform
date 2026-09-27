@@ -33,3 +33,9 @@ jobs:
           az group show \
             --name "rg-leke-dataplatform-uks-dev" \
             --output table
+
+      - name: Test Azure write access
+        run: |
+          az group update \
+            --name "rg-leke-dataplatform-uks-dev" \
+            --set tags.CICDTest="should-fail"
