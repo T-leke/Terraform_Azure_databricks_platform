@@ -12,20 +12,28 @@ jobs:
     name: Deploy Vending Dev
     runs-on: ubuntu-latest
 
+    # Authentication for HCP Terraform
+    env:
+      TF_TOKEN_app_terraform_io: ${{ secrets.TF_API_TOKEN }}
+
     defaults:
       run:
         working-directory: vending/dev
 
     steps:
+      # 1. Pull the Terraform code onto the GitHub runner
       - name: Checkout repository
         uses: actions/checkout@v4
 
+      # 2. Confirm the required Azure configuration is available
+      #    without printing the actual values
       - name: Check Azure variables
         run: |
           echo "Client ID available: ${{ vars.AZURE_CLIENT_ID != '' }}"
           echo "Tenant ID available: ${{ vars.AZURE_TENANT_ID != '' }}"
           echo "Subscription ID available: ${{ vars.AZURE_SUBSCRIPTION_ID != '' }}"
 
+      # 3. Authenticate the GitHub runner to Azure using OIDC
       - name: Login to Azure using OIDC
         uses: azure/login@v2
         with:
@@ -33,19 +41,26 @@ jobs:
           tenant-id: ${{ vars.AZURE_TENANT_ID }}
           subscription-id: ${{ vars.AZURE_SUBSCRIPTION_ID }}
 
+      # 4. Install the Terraform version required by the project
       - name: Setup Terraform
         uses: hashicorp/setup-terraform@v3
         with:
           terraform_version: 1.16.3
 
+      # 5. Initialize Terraform and connect to the
+      #    Vending HCP Terraform workspace/state
       - name: Terraform Init
         run: terraform init
 
+      # 6. Check Terraform formatting
       - name: Terraform Format Check
         run: terraform fmt -check
 
+      # 7. Validate the Terraform configuration
       - name: Terraform Validate
         run: terraform validate
 
+      # 8. Generate the infrastructure plan
+      #    No resources are deployed yet
       - name: Terraform Plan
         run: terraform plan
