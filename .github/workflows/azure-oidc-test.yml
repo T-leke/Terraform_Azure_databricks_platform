@@ -27,3 +27,9 @@ jobs:
           az account show \
             --query "{subscription:name, tenant:tenantId, user:user}" \
             --output json
+
+      - name: Test Azure resource access
+        run: |
+          az group show \
+            --name "rg-leke-dataplatform-uks-dev" \
+            --output table
