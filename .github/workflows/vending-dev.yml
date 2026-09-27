@@ -47,6 +47,15 @@ jobs:
         with:
           terraform_version: 1.16.3
 
+          
+      - name: Check HCP Terraform authentication
+        run: |
+          if [ -n "$TF_TOKEN_app_terraform_io" ]; then
+            echo "HCP Terraform token is available"
+          else
+            echo "HCP Terraform token is NOT available"
+            exit 1
+          fi
       # 5. Initialize Terraform and connect to the
       #    Vending HCP Terraform workspace/state
       - name: Terraform Init
