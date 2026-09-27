@@ -20,6 +20,12 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v4
 
+      - name: Check Azure configuration
+        run: |
+          echo "Client ID configured: ${{ vars.AZURE_CLIENT_ID != '' }}"
+          echo "Tenant ID configured: ${{ vars.AZURE_TENANT_ID != '' }}"
+          echo "Subscription ID configured: ${{ vars.AZURE_SUBSCRIPTION_ID != '' }}"
+
       - name: Login to Azure using OIDC
         uses: azure/login@v2
         with:
