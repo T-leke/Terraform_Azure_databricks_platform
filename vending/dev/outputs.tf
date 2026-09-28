@@ -47,3 +47,11 @@ output "databricks_nsg_id" {
   description = "NSG associated with the Databricks VNet injection subnets."
   value       = azurerm_network_security_group.databricks.id
 }
+
+output "databricks_public_subnet_name" {
+  value = azurerm_subnet.databricks_public.name
+}
+
+output "databricks_private_subnet_name" {
+  value = azurerm_subnet.databricks_private.name
+}
