@@ -9,17 +9,13 @@ resource "azurerm_databricks_workspace" "this" {
   custom_parameters {
     virtual_network_id = data.terraform_remote_state.vending.outputs.vnet_id
 
-    public_subnet_name =
-      data.terraform_remote_state.vending.outputs.databricks_public_subnet_name
+    public_subnet_name = data.terraform_remote_state.vending.outputs.databricks_public_subnet_name
 
-    private_subnet_name =
-      data.terraform_remote_state.vending.outputs.databricks_private_subnet_name
+    private_subnet_name = data.terraform_remote_state.vending.outputs.databricks_private_subnet_name
 
-    public_subnet_network_security_group_association_id =
-      data.terraform_remote_state.vending.outputs.databricks_public_nsg_association_id
+    public_subnet_network_security_group_association_id = data.terraform_remote_state.vending.outputs.databricks_public_nsg_association_id
 
-    private_subnet_network_security_group_association_id =
-      data.terraform_remote_state.vending.outputs.databricks_private_nsg_association_id
+    private_subnet_network_security_group_association_id = data.terraform_remote_state.vending.outputs.databricks_private_nsg_association_id
 
     no_public_ip = true
   }
@@ -31,3 +27,4 @@ resource "azurerm_databricks_workspace" "this" {
     Owner       = "platform-engineering"
   }
 }
+

@@ -14,3 +14,6 @@ output "vending_data_platform_resource_group_name" {
   value = data.terraform_remote_state.vending.outputs.data_platform_resource_group_name
 }
 
+output "databricks_authenticated_user" {
+  value = data.databricks_current_user.me.user_name
+}
