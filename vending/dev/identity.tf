@@ -8,11 +8,14 @@ resource "azuread_group" "platform_readers" {
   security_enabled = true
 }
 
-data "azuread_user" "tolu" {
-  user_principal_name = "tolu@gbemilekeogidanoutlook.onmicrosoft.com"
+# ------------------------------------------------------------------
+# Terraform deployment identity
+# ------------------------------------------------------------------
+
+resource "azuread_application" "terraform_deployment" {
+  display_name = "app-leke-terraform-deployment-dev"
 }
 
-resource "azuread_group_member" "tolu_platform_reader" {
-  group_object_id  = azuread_group.platform_readers.object_id
-  member_object_id = data.azuread_user.tolu.object_id
+resource "azuread_service_principal" "terraform_deployment" {
+  client_id = azuread_application.terraform_deployment.client_id
 }
