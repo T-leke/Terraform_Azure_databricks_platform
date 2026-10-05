@@ -63,3 +63,13 @@ output "databricks_public_nsg_association_id" {
 output "databricks_private_nsg_association_id" {
   value = azurerm_subnet_network_security_group_association.databricks_private.id
 }
+
+output "terraform_deployment_client_id" {
+  description = "Client ID of the Terraform deployment application"
+  value       = azuread_application.terraform_deployment.client_id
+}
+
+output "terraform_deployment_service_principal_object_id" {
+  description = "Object ID of the Terraform deployment service principal"
+  value       = azuread_service_principal.terraform_deployment.object_id
+}

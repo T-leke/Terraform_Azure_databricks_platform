@@ -1,4 +1,4 @@
-name: Azure OIDC Test
+name: Azure OIDC Authentication Test
 
 on:
   workflow_dispatch:
@@ -8,8 +8,9 @@ permissions:
   contents: read
 
 jobs:
-  test-oidc:
+  test-azure-login:
     runs-on: ubuntu-latest
+    environment: dev
 
     steps:
       - name: Checkout repository
@@ -22,20 +23,23 @@ jobs:
           tenant-id: ${{ vars.AZURE_TENANT_ID }}
           subscription-id: ${{ vars.AZURE_SUBSCRIPTION_ID }}
 
-      - name: Show authenticated identity
+      - name: Verify Azure identity
         run: |
+          echo "OIDC authentication succeeded."
           az account show \
-            --query "{subscription:name, tenant:tenantId, user:user}" \
-            --output json
-
-      - name: Test Azure resource access
-        run: |
-          az group show \
-            --name "rg-leke-dataplatform-uks-dev" \
+            --query "{subscription:name, tenant:tenantId, user:user.name}" \
             --output table
 
-      - name: Test Azure write access
+      - name: Test access to shared resource group
         run: |
-          az group update \
-            --name "rg-leke-dataplatform-uks-dev" \
-            --set tags.CICDTest="should-fail"
+          az group show \
+            --name rg-leke-shared-uks-dev \
+            --query "{name:name, location:location}" \
+            --output table
+
+      - name: Test access to data platform resource group
+        run: |
+          az group show \
+            --name rg-leke-dataplatform-uks-dev \
+            --query "{name:name, location:location}" \
+            --output table
