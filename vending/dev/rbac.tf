@@ -20,3 +20,15 @@ resource "azurerm_role_assignment" "platform_readers_data_platform_reader" {
   role_definition_name = "Reader"
   principal_id         = azuread_group.platform_readers.object_id
 }
+
+resource "azurerm_role_assignment" "terraform_deployment_shared_reader" {
+  scope                = azurerm_resource_group.shared.id
+  role_definition_name = "Reader"
+  principal_id         = azuread_service_principal.terraform_deployment.object_id
+}
+
+resource "azurerm_role_assignment" "terraform_deployment_data_platform_contributor" {
+  scope                = azurerm_resource_group.data_platform.id
+  role_definition_name = "Contributor"
+  principal_id         = azuread_service_principal.terraform_deployment.object_id
+}
