@@ -31,5 +31,5 @@ resource "azuread_application_federated_identity_credential" "github_dev" {
 
   issuer = "https://token.actions.githubusercontent.com"
 
-  subject = "repo:T-leke/Terraform_Azure_databricks_platform:environment:dev"
+  subject = "repo:T-leke@126075618/Terraform_Azure_databricks_platform@1373689046:environment:dev"
 }
