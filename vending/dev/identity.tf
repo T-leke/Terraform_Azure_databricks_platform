@@ -21,9 +21,9 @@ resource "azuread_service_principal" "terraform_deployment" {
 }
 
 
-resource "azuread_application_federated_identity_credential" "github_dev" {
+resource "azuread_application_federated_identity_credential" "github_dev_immutable" {
   application_id = azuread_application.terraform_deployment.id
-  display_name   = "github-dev"
+  display_name   = "github-dev-immutable"
 
   audiences = [
     "api://AzureADTokenExchange"
