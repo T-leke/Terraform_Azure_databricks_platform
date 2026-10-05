@@ -19,3 +19,17 @@ resource "azuread_application" "terraform_deployment" {
 resource "azuread_service_principal" "terraform_deployment" {
   client_id = azuread_application.terraform_deployment.client_id
 }
+
+
+resource "azuread_application_federated_identity_credential" "github_dev" {
+  application_id = azuread_application.terraform_deployment.id
+  display_name   = "github-dev"
+
+  audiences = [
+    "api://AzureADTokenExchange"
+  ]
+
+  issuer = "https://token.actions.githubusercontent.com"
+
+  subject = "repo:T-leke/Terraform_Azure_databricks_platform:environment:dev"
+}
