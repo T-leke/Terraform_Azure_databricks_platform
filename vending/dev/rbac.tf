@@ -38,3 +38,9 @@ resource "azurerm_role_assignment" "platform_deployment_contributor" {
   role_definition_name = "Contributor"
   principal_id         = azuread_service_principal.platform_deployment.object_id
 }
+
+resource "azurerm_role_assignment" "platform_deployment_rbac_admin" {
+  scope                = azurerm_resource_group.data_platform.id
+  role_definition_name = "Role Based Access Control Administrator"
+  principal_id         = azuread_service_principal.platform_deployment.object_id
+}
