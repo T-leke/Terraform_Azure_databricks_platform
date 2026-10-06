@@ -4,5 +4,6 @@ locals {
     Project     = "enterprise-databricks-lab"
     ManagedBy   = "terraform"
     Owner       = "platform-engineering"
+    Deployment  = "github-actions"
   }
 }
