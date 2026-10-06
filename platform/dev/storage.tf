@@ -18,3 +18,9 @@ resource "azurerm_storage_account" "data_lake" {
     Owner       = "platform-engineering"
   }
 }
+
+resource "azurerm_storage_container" "landing" {
+  name                  = "landing"
+  storage_account_id    = azurerm_storage_account.data_lake.id
+  container_access_type = "private"
+}
