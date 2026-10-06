@@ -49,3 +49,24 @@ resource "azuread_app_role_assignment" "terraform_application_read" {
   principal_object_id = azuread_service_principal.terraform_deployment.object_id
   resource_object_id  = data.azuread_service_principal.microsoft_graph.object_id
 }
+
+resource "azuread_application" "platform_deployment" {
+  display_name = "app-leke-platform-deployment-dev"
+}
+
+resource "azuread_service_principal" "platform_deployment" {
+  client_id = azuread_application.platform_deployment.client_id
+}
+
+resource "azuread_application_federated_identity_credential" "github_platform_dev" {
+  application_id = azuread_application.platform_deployment.id
+  display_name   = "github-platform-dev"
+
+  audiences = [
+    "api://AzureADTokenExchange"
+  ]
+
+  issuer = "https://token.actions.githubusercontent.com"
+
+  subject = "repo:T-leke@126075618/Terraform_Azure_databricks_platform@1373689046:environment:dev"
+}

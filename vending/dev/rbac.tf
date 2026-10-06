@@ -32,3 +32,9 @@ resource "azurerm_role_assignment" "terraform_deployment_data_platform_contribut
   role_definition_name = "Contributor"
   principal_id         = azuread_service_principal.terraform_deployment.object_id
 }
+
+resource "azurerm_role_assignment" "platform_deployment_contributor" {
+  scope                = azurerm_resource_group.data_platform.id
+  role_definition_name = "Contributor"
+  principal_id         = azuread_service_principal.platform_deployment.object_id
+}
