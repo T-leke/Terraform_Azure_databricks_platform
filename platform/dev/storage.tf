@@ -1,7 +1,7 @@
 resource "azurerm_storage_account" "data_lake" {
-  name                     = "stlekedatauksdev"
-  resource_group_name      = data.terraform_remote_state.vending.outputs.data_platform_resource_group_name
-  location                 = "uksouth"
+  name                = "stlekedatauksdev"
+  resource_group_name = data.terraform_remote_state.vending.outputs.data_platform_resource_group_name
+  location            = "uksouth"
 
   account_tier             = "Standard"
   account_replication_type = "LRS"
