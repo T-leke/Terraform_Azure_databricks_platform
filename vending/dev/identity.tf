@@ -33,3 +33,19 @@ resource "azuread_application_federated_identity_credential" "github_dev_immutab
 
   subject = "repo:T-leke@126075618/Terraform_Azure_databricks_platform@1373689046:environment:dev"
 }
+
+data "azuread_service_principal" "microsoft_graph" {
+  client_id = "00000003-0000-0000-c000-000000000000"
+}
+
+resource "azuread_app_role_assignment" "terraform_group_management" {
+  app_role_id         = data.azuread_service_principal.microsoft_graph.app_role_ids["Group.ReadWrite.All"]
+  principal_object_id = azuread_service_principal.terraform_deployment.object_id
+  resource_object_id  = data.azuread_service_principal.microsoft_graph.object_id
+}
+
+resource "azuread_app_role_assignment" "terraform_application_read" {
+  app_role_id         = data.azuread_service_principal.microsoft_graph.app_role_ids["Application.Read.All"]
+  principal_object_id = azuread_service_principal.terraform_deployment.object_id
+  resource_object_id  = data.azuread_service_principal.microsoft_graph.object_id
+}
