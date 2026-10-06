@@ -45,7 +45,7 @@ resource "azuread_app_role_assignment" "terraform_group_management" {
 }
 
 resource "azuread_app_role_assignment" "terraform_application_read" {
-  app_role_id         = data.azuread_service_principal.microsoft_graph.app_role_ids["Application.Read.All"]
+  app_role_id         = data.azuread_service_principal.microsoft_graph.app_role_ids["Application.ReadWrite.All"]
   principal_object_id = azuread_service_principal.terraform_deployment.object_id
   resource_object_id  = data.azuread_service_principal.microsoft_graph.object_id
 }
