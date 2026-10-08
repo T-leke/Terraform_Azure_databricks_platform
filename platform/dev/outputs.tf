@@ -17,3 +17,8 @@ output "vending_data_platform_resource_group_name" {
 output "databricks_authenticated_user" {
   value = data.databricks_current_user.me.user_name
 }
+
+output "databricks_workspace_url" {
+  description = "URL of the Databricks workspace for downstream deployments"
+  value       = azurerm_databricks_workspace.this.workspace_url
+}
