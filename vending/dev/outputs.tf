@@ -83,3 +83,7 @@ output "platform_deployment_service_principal_object_id" {
   description = "Object ID of the Platform deployment service principal"
   value       = azuread_service_principal.platform_deployment.object_id
 }
+
+output "multiapp_deployment_client_id" {
+  value = azuread_application.multiapp_deployment.client_id
+}
