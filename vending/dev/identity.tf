@@ -70,3 +70,26 @@ resource "azuread_application_federated_identity_credential" "github_platform_de
 
   subject = "repo:T-leke@126075618/Terraform_Azure_databricks_platform@1373689046:environment:dev"
 }
+
+resource "azuread_application" "multiapp_deployment" {
+  display_name = "app-leke-multiapp-deployment-dev"
+}
+
+resource "azuread_service_principal" "multiapp_deployment" {
+  client_id = azuread_application.multiapp_deployment.client_id
+}
+
+resource "azuread_application_federated_identity_credential" "github_multiapp_dev" {
+  application_id = azuread_application.multiapp_deployment.id
+  display_name   = "github-multiapp-dev"
+  description    = "GitHub Actions OIDC for Multiapp DEV"
+
+  audiences = [
+    "api://AzureADTokenExchange"
+  ]
+
+  issuer = "https://token.actions.githubusercontent.com"
+
+  subject = "repo:T-leke@126075618/Terraform_Azure_databricks_platform@1373689046:environment:dev"
+}
+
