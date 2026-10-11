@@ -19,3 +19,8 @@ output "databricks_workspace_url" {
   description = "URL of the Databricks workspace for downstream deployments"
   value       = azurerm_databricks_workspace.this.workspace_url
 }
+
+output "managed_storage_url" {
+  description = "ADLS path for Unity Catalog managed storage"
+  value       = "abfss://${azurerm_storage_container.managed.name}@${azurerm_storage_account.data_lake.name}.dfs.core.windows.net/"
+}
