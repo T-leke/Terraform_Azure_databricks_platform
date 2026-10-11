@@ -8,6 +8,11 @@ resource "azuread_group" "platform_readers" {
   security_enabled = true
 }
 
+resource "azuread_group" "metastore_admins" {
+  display_name     = "grp-leke-metastore-admins"
+  security_enabled = true
+}
+
 # ------------------------------------------------------------------
 # Terraform deployment identity
 # ------------------------------------------------------------------
@@ -93,3 +98,24 @@ resource "azuread_application_federated_identity_credential" "github_multiapp_de
   subject = "repo:T-leke@126075618/Terraform_Azure_databricks_platform@1373689046:environment:dev"
 }
 
+resource "azuread_application" "governance_deployment" {
+  display_name = "app-leke-governance-deployment-dev"
+}
+
+resource "azuread_service_principal" "governance_deployment" {
+  client_id = azuread_application.governance_deployment.client_id
+}
+
+resource "azuread_application_federated_identity_credential" "github_governance_dev" {
+  application_id = azuread_application.governance_deployment.id
+  display_name   = "github-governance-dev"
+  description    = "GitHub Actions OIDC for Governance DEV"
+
+  audiences = [
+    "api://AzureADTokenExchange"
+  ]
+
+  issuer = "https://token.actions.githubusercontent.com"
+
+  subject = "repo:T-leke@126075618/Terraform_Azure_databricks_platform@1373689046:environment:dev"
+}

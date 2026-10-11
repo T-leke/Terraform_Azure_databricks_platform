@@ -87,3 +87,13 @@ output "platform_deployment_service_principal_object_id" {
 output "multiapp_deployment_client_id" {
   value = azuread_application.multiapp_deployment.client_id
 }
+
+output "governance_deployment_client_id" {
+  description = "Client ID of the Governance deployment application"
+  value       = azuread_application.governance_deployment.client_id
+}
+
+output "governance_deployment_service_principal_object_id" {
+  description = "Object ID of the Governance deployment service principal"
+  value       = azuread_service_principal.governance_deployment.object_id
+}
