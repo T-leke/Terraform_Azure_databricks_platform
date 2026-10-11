@@ -13,6 +13,15 @@ resource "azuread_group" "metastore_admins" {
   security_enabled = true
 }
 
+data "azuread_user" "current" {
+  user_principal_name = "gbemilekeogidan_outlook.com#EXT#@gbemilekeogidanoutlook.onmicrosoft.com"
+}
+
+resource "azuread_group_member" "metastore_admin_user" {
+  group_object_id  = azuread_group.metastore_admins.object_id
+  member_object_id = data.azuread_user.current.object_id
+}
+
 # ------------------------------------------------------------------
 # Terraform deployment identity
 # ------------------------------------------------------------------
