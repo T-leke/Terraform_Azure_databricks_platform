@@ -18,3 +18,13 @@ resource "databricks_external_location" "landing" {
 
   comment = "Landing area for DEV data ingestion - managed by Terraform"
 }
+
+resource "databricks_external_location" "managed" {
+  name = "ext-leke-managed-dev"
+
+  url = "abfss://${azurerm_storage_container.managed.name}@${azurerm_storage_account.data_lake.name}.dfs.core.windows.net/"
+
+  credential_name = databricks_storage_credential.data_lake.name
+
+  comment = "External location for Unity Catalog managed storage"
+}
