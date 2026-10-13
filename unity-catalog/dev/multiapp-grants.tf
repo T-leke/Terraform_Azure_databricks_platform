@@ -8,3 +8,11 @@ resource "databricks_grant" "sales_multiapp" {
   ]
 }
 
+resource "databricks_grant" "sales_platform_engineers" {
+  catalog   = databricks_catalog.sales.name
+  principal = "grp-leke-platform-engineers"
+
+  privileges = [
+    "USE_CATALOG"
+  ]
+}
