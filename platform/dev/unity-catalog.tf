@@ -28,3 +28,13 @@ resource "databricks_external_location" "managed" {
 
   comment = "External location for Unity Catalog managed storage"
 }
+
+resource "databricks_grant" "governance_managed_storage" {
+  external_location = databricks_external_location.managed.id
+
+  principal = "e6fcf18b-9ddb-40cd-9cc3-abe13fa6a084"
+
+  privileges = [
+    "CREATE_MANAGED_STORAGE"
+  ]
+}
