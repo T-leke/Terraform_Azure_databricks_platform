@@ -126,3 +126,15 @@ resource "azuread_application_federated_identity_credential" "github_governance_
 
   subject = "repo:T-leke@126075618/Terraform_Azure_databricks_platform@1373689046:environment:dev"
 }
+
+# ------------------------------------------------------------------
+# Sales runtime identity
+# ------------------------------------------------------------------
+
+resource "azuread_application" "sales_runtime" {
+  display_name = "app-leke-sales-runtime-dev"
+}
+
+resource "azuread_service_principal" "sales_runtime" {
+  client_id = azuread_application.sales_runtime.client_id
+}

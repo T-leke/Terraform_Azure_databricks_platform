@@ -97,3 +97,13 @@ output "governance_deployment_service_principal_object_id" {
   description = "Object ID of the Governance deployment service principal"
   value       = azuread_service_principal.governance_deployment.object_id
 }
+
+output "sales_runtime_client_id" {
+  description = "Client ID of the Sales Analytics runtime identity"
+  value       = azuread_application.sales_runtime.client_id
+}
+
+output "sales_runtime_service_principal_object_id" {
+  description = "Entra object ID of the Sales Analytics runtime service principal"
+  value       = azuread_service_principal.sales_runtime.object_id
+}
