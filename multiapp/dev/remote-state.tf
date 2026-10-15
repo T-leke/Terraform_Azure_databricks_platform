@@ -9,3 +9,11 @@ data "terraform_remote_state" "platform" {
     }
   }
 }
+
+data "databricks_spark_version" "latest_lts" {
+  long_term_support = true
+}
+
+data "databricks_node_type" "smallest" {
+  local_disk = true
+}
