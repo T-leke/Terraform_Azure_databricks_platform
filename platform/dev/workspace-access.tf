@@ -9,3 +9,18 @@ resource "databricks_permission_assignment" "sales_runtime" {
 
   permissions = ["USER"]
 }
+
+
+resource "databricks_access_control_rule_set" "sales_runtime" {
+  provider = databricks.account
+
+  name = "accounts/${var.databricks_account_id}/servicePrincipals/${data.terraform_remote_state.vending.outputs.sales_runtime_client_id}/ruleSets/default"
+
+  grant_rules {
+    principals = [
+      "servicePrincipals/${data.terraform_remote_state.vending.outputs.multiapp_deployment_client_id}"
+    ]
+
+    role = "roles/servicePrincipal.user"
+  }
+}
