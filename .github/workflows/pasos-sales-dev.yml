@@ -2,6 +2,7 @@ name: Deploy Sales PASOS - DEV
 
 on:
   workflow_dispatch:
+
   push:
     paths:
       - "app-deployment/sales/**"
@@ -12,47 +13,82 @@ permissions:
 
 jobs:
   deploy:
+    name: Deploy Sales Code
     runs-on: ubuntu-latest
     environment: dev
 
     steps:
-      - name: Checkout
+      # ---------------------------------------------------------
+      # 1. Checkout application code
+      # ---------------------------------------------------------
+      - name: Checkout repository
         uses: actions/checkout@v4
 
-      - name: Azure Login
-        uses: azure/login@v3
-        with:
-          client-id: ${{ vars.AZURE_MULTIAPP_CLIENT_ID }}
-          tenant-id: ${{ vars.AZURE_TENANT_ID }}
-          allow-no-subscriptions: true
-
+      # ---------------------------------------------------------
+      # 2. Install Databricks CLI
+      # ---------------------------------------------------------
       - name: Install Databricks CLI
         uses: databricks/setup-cli@main
 
-      - name: Deploy Sales Python files
+      # ---------------------------------------------------------
+      # 3. Verify GitHub OIDC -> Databricks authentication
+      # ---------------------------------------------------------
+      - name: Verify Databricks authentication
         env:
           DATABRICKS_HOST: ${{ vars.DATABRICKS_HOST }}
-          DATABRICKS_AZURE_CLIENT_ID: ${{ vars.AZURE_MULTIAPP_CLIENT_ID }}
+          DATABRICKS_CLIENT_ID: ${{ vars.AZURE_MULTIAPP_CLIENT_ID }}
+          DATABRICKS_AUTH_TYPE: github-oidc
+        run: |
+          databricks current-user me
+
+      # ---------------------------------------------------------
+      # 4. Create target workspace directory
+      # ---------------------------------------------------------
+      - name: Create Sales workspace directory
+        env:
+          DATABRICKS_HOST: ${{ vars.DATABRICKS_HOST }}
+          DATABRICKS_CLIENT_ID: ${{ vars.AZURE_MULTIAPP_CLIENT_ID }}
+          DATABRICKS_AUTH_TYPE: github-oidc
         run: |
           databricks workspace mkdirs /Workspace/Shared/sales
 
+      # ---------------------------------------------------------
+      # 5. Deploy application code
+      # ---------------------------------------------------------
+      - name: Deploy Sales Python files
+        env:
+          DATABRICKS_HOST: ${{ vars.DATABRICKS_HOST }}
+          DATABRICKS_CLIENT_ID: ${{ vars.AZURE_MULTIAPP_CLIENT_ID }}
+          DATABRICKS_AUTH_TYPE: github-oidc
+        run: |
           databricks workspace import \
-            app-deployment/sales/bronze.py \
             /Workspace/Shared/sales/bronze.py \
+            --file app-deployment/sales/bronze.py \
             --format SOURCE \
             --language PYTHON \
             --overwrite
 
           databricks workspace import \
-            app-deployment/sales/silver.py \
             /Workspace/Shared/sales/silver.py \
+            --file app-deployment/sales/silver.py \
             --format SOURCE \
             --language PYTHON \
             --overwrite
 
           databricks workspace import \
-            app-deployment/sales/gold.py \
             /Workspace/Shared/sales/gold.py \
+            --file app-deployment/sales/gold.py \
             --format SOURCE \
             --language PYTHON \
             --overwrite
+
+      # ---------------------------------------------------------
+      # 6. Verify deployed artifacts
+      # ---------------------------------------------------------
+      - name: Verify Sales deployment
+        env:
+          DATABRICKS_HOST: ${{ vars.DATABRICKS_HOST }}
+          DATABRICKS_CLIENT_ID: ${{ vars.AZURE_MULTIAPP_CLIENT_ID }}
+          DATABRICKS_AUTH_TYPE: github-oidc
+        run: |
+          databricks workspace list /Workspace/Shared/sales
