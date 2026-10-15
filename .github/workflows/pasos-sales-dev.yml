@@ -1,0 +1,58 @@
+name: Deploy Sales PASOS - DEV
+
+on:
+  workflow_dispatch:
+  push:
+    paths:
+      - "app-deployment/sales/**"
+
+permissions:
+  id-token: write
+  contents: read
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    environment: dev
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Azure Login
+        uses: azure/login@v3
+        with:
+          client-id: ${{ vars.AZURE_MULTIAPP_CLIENT_ID }}
+          tenant-id: ${{ vars.AZURE_TENANT_ID }}
+          allow-no-subscriptions: true
+
+      - name: Install Databricks CLI
+        uses: databricks/setup-cli@main
+
+      - name: Deploy Sales Python files
+        env:
+          DATABRICKS_HOST: ${{ vars.DATABRICKS_HOST }}
+          DATABRICKS_AZURE_CLIENT_ID: ${{ vars.AZURE_MULTIAPP_CLIENT_ID }}
+        run: |
+          databricks workspace mkdirs /Workspace/Shared/sales
+
+          databricks workspace import \
+            app-deployment/sales/bronze.py \
+            /Workspace/Shared/sales/bronze.py \
+            --format SOURCE \
+            --language PYTHON \
+            --overwrite
+
+          databricks workspace import \
+            app-deployment/sales/silver.py \
+            /Workspace/Shared/sales/silver.py \
+            --format SOURCE \
+            --language PYTHON \
+            --overwrite
+
+          databricks workspace import \
+            app-deployment/sales/gold.py \
+            /Workspace/Shared/sales/gold.py \
+            --format SOURCE \
+            --language PYTHON \
+            --overwrite
