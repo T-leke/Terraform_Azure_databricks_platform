@@ -107,3 +107,4 @@ output "sales_runtime_service_principal_object_id" {
   description = "Entra object ID of the Sales Analytics runtime service principal"
   value       = azuread_service_principal.sales_runtime.object_id
 }
+

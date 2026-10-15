@@ -24,3 +24,8 @@ output "managed_storage_url" {
   description = "ADLS path for Unity Catalog managed storage"
   value       = "abfss://${azurerm_storage_container.managed.name}@${azurerm_storage_account.data_lake.name}.dfs.core.windows.net/"
 }
+
+output "sales_runtime_client_id" {
+  description = "Client ID of the Sales Analytics runtime service principal"
+  value       = data.terraform_remote_state.vending.outputs.sales_runtime_client_id
+}

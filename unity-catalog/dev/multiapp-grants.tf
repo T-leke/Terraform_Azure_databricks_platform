@@ -16,3 +16,5 @@ resource "databricks_grant" "sales_platform_engineers" {
     "USE_CATALOG"
   ]
 }
+
+
