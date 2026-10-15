@@ -11,7 +11,7 @@ resource "databricks_permission_assignment" "sales_runtime" {
 }
 
 
-resource "databricks_access_control_rule_set" "sales_runtime" {
+/* resource "databricks_access_control_rule_set" "sales_runtime" {
   provider = databricks.account
 
   name = "accounts/${var.databricks_account_id}/servicePrincipals/${data.terraform_remote_state.vending.outputs.sales_runtime_client_id}/ruleSets/default"
@@ -23,4 +23,4 @@ resource "databricks_access_control_rule_set" "sales_runtime" {
 
     role = "roles/servicePrincipal.user"
   }
-}
+} */
