@@ -18,3 +18,12 @@ resource "databricks_grant" "sales_platform_engineers" {
 }
 
 
+resource "databricks_grant" "sales_runtime" {
+  catalog = databricks_catalog.sales.name
+
+  principal = data.terraform_remote_state.platform.outputs.sales_runtime_client_id
+
+  privileges = [
+    "USE_CATALOG"
+  ]
+}
