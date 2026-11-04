@@ -23,8 +23,8 @@ resource "databricks_job" "sales_etl" {
 
     job_cluster_key = "sales_etl_cluster"
 
-    spark_python_task {
-      python_file = "/Workspace/Shared/sales/bronze.py"
+    notebook_task {
+      notebook_path = "/Workspace/Shared/sales/bronze"
     }
   }
 
@@ -37,8 +37,8 @@ resource "databricks_job" "sales_etl" {
 
     job_cluster_key = "sales_etl_cluster"
 
-    spark_python_task {
-      python_file = "/Workspace/Shared/sales/silver.py"
+    notebook_task {
+      notebook_path = "/Workspace/Shared/sales/silver"
     }
   }
 
@@ -51,8 +51,8 @@ resource "databricks_job" "sales_etl" {
 
     job_cluster_key = "sales_etl_cluster"
 
-    spark_python_task {
-      python_file = "/Workspace/Shared/sales/gold.py"
+    notebook_task {
+      notebook_path = "/Workspace/Shared/sales/gold"
     }
   }
 }
