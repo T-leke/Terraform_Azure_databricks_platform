@@ -1,4 +1,4 @@
-/*resource "azurerm_public_ip" "databricks_nat" {
+resource "azurerm_public_ip" "databricks_nat" {
   name                = "pip-leke-databricks-nat-uks-dev"
   location            = azurerm_resource_group.shared.location
   resource_group_name = azurerm_resource_group.shared.name
@@ -45,4 +45,3 @@ resource "azurerm_subnet_nat_gateway_association" "databricks_private" {
   nat_gateway_id = azurerm_nat_gateway.databricks.id
 }
 
-*/
