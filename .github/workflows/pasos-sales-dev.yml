@@ -62,21 +62,21 @@ jobs:
           DATABRICKS_AUTH_TYPE: github-oidc
         run: |
           databricks workspace import \
-            /Workspace/Shared/sales/bronze.py \
+            /Workspace/Shared/sales/bronze \
             --file app-deployment/sales/bronze.py \
             --format SOURCE \
             --language PYTHON \
             --overwrite
 
           databricks workspace import \
-            /Workspace/Shared/sales/silver.py \
+            /Workspace/Shared/sales/silver \
             --file app-deployment/sales/silver.py \
             --format SOURCE \
             --language PYTHON \
             --overwrite
 
           databricks workspace import \
-            /Workspace/Shared/sales/gold.py \
+            /Workspace/Shared/sales/gold \
             --file app-deployment/sales/gold.py \
             --format SOURCE \
             --language PYTHON \
