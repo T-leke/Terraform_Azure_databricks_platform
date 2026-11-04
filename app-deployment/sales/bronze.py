@@ -17,8 +17,6 @@ df = spark.createDataFrame(
 df.write \
     .format("delta") \
     .mode("overwrite") \
-    .saveAsTable("'cat-sales'.bronze.raw_sales")
+    .saveAsTable("`cat-sales`.bronze.raw_sales")
 
 print("Bronze complete")
-
-# test

@@ -13,6 +13,6 @@ summary = (
 summary.write \
     .format("delta") \
     .mode("overwrite") \
-    .saveAsTable("'cat-sales'.gold.sales_summary")
+    .saveAsTable("`cat-sales`.gold.sales_summary")
 
 print("Gold complete")
