@@ -15,3 +15,4 @@ resource "databricks_schema" "gold" {
   name         = "gold"
   comment      = "Curated consumption layer for Sales Analytics"
 }
+

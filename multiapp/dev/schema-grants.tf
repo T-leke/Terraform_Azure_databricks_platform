@@ -3,7 +3,8 @@ resource "databricks_grant" "bronze_platform_engineers" {
   principal = "grp-leke-platform-engineers"
 
   privileges = [
-    "USE_SCHEMA"
+    "USE_SCHEMA",
+    "SELECT"
   ]
 }
 
@@ -12,7 +13,8 @@ resource "databricks_grant" "silver_platform_engineers" {
   principal = "grp-leke-platform-engineers"
 
   privileges = [
-    "USE_SCHEMA"
+    "USE_SCHEMA",
+    "SELECT"
   ]
 }
 
@@ -21,7 +23,8 @@ resource "databricks_grant" "gold_platform_engineers" {
   principal = "grp-leke-platform-engineers"
 
   privileges = [
-    "USE_SCHEMA"
+    "USE_SCHEMA",
+    "SELECT"
   ]
 }
 
